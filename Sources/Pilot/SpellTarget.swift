@@ -10,13 +10,13 @@ import SwiftUI
 @MainActor
 @Observable
 public class SpellTarget {
-    private let connectionManager: ConnectionManager
-    public let deviceId: String = {
-        ConnectionManager.deviceId
-    }()
-    public init() {
-        connectionManager = ConnectionManager()
+    public static let shared = SpellTarget()
+    private let connectionManager = ConnectionManager()
+    public let deviceId: String = ConnectionManager.deviceId
+    public var isConnected: Bool {
+        connectionManager.isConnected
     }
+    private init() {}
 
 
     public func startHosting(_ appName: String) {
@@ -77,5 +77,16 @@ public class SpellTarget {
                 SpellBook.shared.cast(spellId: spell.id, type: type)
             }
         }
+    }
+}
+
+private struct SpellTargetKey: EnvironmentKey {
+    static let defaultValue = SpellTarget.shared
+}
+
+public extension EnvironmentValues {
+    public var pilotTarget: SpellTarget {
+        get { self[SpellTargetKey.self] }
+        set { self[SpellTargetKey.self] = newValue }
     }
 }

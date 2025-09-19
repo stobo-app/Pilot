@@ -1,3 +1,5 @@
+![Pilot Banner](./images/banner.png)
+
 # Pilot for Apple Vision Pro
 
 Simplify your demos with Apple Vision Pro.

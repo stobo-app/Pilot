@@ -10,7 +10,7 @@ import Network
 
 @Observable
 public class ConnectionManager {
-    static let serviceType = "_stobo-pilot._tcp"
+    static let serviceType = "_storyboard._tcp"
     static let deviceId: String = {
         let userDefaults = UserDefaults.standard
         let key = "PilotDeviceId"
