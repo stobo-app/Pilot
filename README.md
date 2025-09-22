@@ -1,10 +1,102 @@
 ![Pilot Banner](./images/banner.png)
 
-# Pilot for Apple Vision Pro
+# Simplify your Apple Vision Pro demos
 
-Simplify your demos with Apple Vision Pro.
+Pilot turns your app into a remote controllable experience with **a single line of code**.
 
-Pilot turns your app into a remote controllable experience with a single line of code.
+## Let's spin this up!
+
+### Step 1: Get the package
+
+Copy the repo url. Open XCode and add Pilot as an SPM dependency to your project.
+
+### Step 2: Configure Pilot in your code
+
+`import Pilot` at the top of your .swift file and apply the `.tryASpell()` modifier to your root view. This will start all networking tasks and set some mock spells for your app.
+
+<!-- >[!TIP]
+If your app is using UIKit, please refer directly to the [programmatic API](documentation coming soon). -->
+
+### Step 3: Install Stobo
+
+Download **[Stobo](https://apps.apple.com/fr/app/storyboard-pilot/id6746539692)** on your iPhone or iPad, our remote control app.
+
+### Step 4: Test your experience
+ >[!WARNING]
+ Make sure both your devices (the one running your app and the one running Stobo) are connected to the same Wi-Fi network.
+
+Open **Stobo** you should see “*SpellBook”* at the top of your screen. Tap *“SpellBook”*, then tap on *“Revelio”*. Now check your Apple Vision Pro (or simulator).
 
 
-> **WIP:** Documentation is under construction. Please refer to the demo app to get started
+Working? Great! Then you are ready to work on your own spells.
+
+
+>[!TIP]
+If you do not see *“Spell book”* listed, or no action is happening when you click on “*Revelio ✨”*, refer to the [troubleshooting section](/doc/troubleshooting-zBikpgwLmz).
+
+# Create your own Spells
+
+Your app integrates with **Stobo** using Spells. A Spell defines what your users will see on their **Stobo** app (name, description, icons ...) and what action will be remotely triggered when a Spell is casted.
+
+## Get started
+
+To register a Spell simply declare an array of type `[any AnySpell]`. This allows to decalare a non homogeneous array of generic `Spell`. Once declared pass it to Pilot using `.startPilot(appName: ,spells:)`. Apply this modifier on your root view and let Pilot handle the communication and networking for you.
+
+## Examples
+
+There is currently 3 ways to manage your Spells. Open the demo app and see all of them in action:
+
+### 1. Reactive setup
+
+With the reactive setup you get a really SwiftUI oriented approach. Use `.startPilot(appName: ,spells:)` to pass a binding to a list of spells that you can then manage during the view lifecycle. This setup allows to start advertising the app on your local network instantly and add or remove Spells progressively.
+
+For example if your app has multiple Views, you can trigger navigation between the views using a Spell and add specific actions depending on what screen your users is facing in the App.
+
+To test this configuration refer to the `ReactiveSpellBookView.swift` file.
+
+
+### 2. Async setup
+
+With the async setup you can defer the advertising of your app until your content is ready. Use `.startPilot(appName:, getSpells:)` to pass an async function that will prepare your data and create your Spells. Pilot will start advertising your app on the network only once the getSpells function executed.
+
+This ensures users never connect to an app with an empty list of Spells. For example, when your app needs to fetch content or load assets before being usable.
+
+A common case would be immersive media apps that need to download a list of videos or 3D assets from a server. By waiting for the async function to resolve, you guarantee that your users will always land in a ready-to-control experience.
+
+To test this configuration refer to the `AsyncSpellBookView.swift` file.
+
+### 3. Manual setup
+
+With the manual setup you get full programmatic control over Pilot. By accessing the pilotTarget environment variable `@Environment(\.pilotTarget)` you can directly call the functions without using the modifiers.
+
+This approach is especially useful if you are working in UIKit or prefer to have a more granular control on the Pilot communication lifecycle. You can take care of registering, starting, stopping hosting, or registering spells yourself, while still letting Pilot handling the network communication and setup for your.
+
+To test this configuration refer to the `ContentView.swift` file.
+
+>[!TIP]
+In the manual setup `ContentView.swift`, you can see that a custom Spell ID is defined. This ID is used `pilotTarget.invoke` to notify back the the control app of a change of state for a given Spell. This allows two-way synchronization of actions. For example, in a video player, both the remote control and the Apple Vision Pro can trigger play/pause.
+## API reference
+
+🚧 Work in progress (but feel free to refer to the source code, specifically in the `SpellTarget.swift` file)
+
+# Why Pilot?
+
+## Privacy oriented design
+   * Sensitive data (payloads and function declarations) are stored **only on the controlled app**.
+   * Stobo never has access to your logic or payloads.
+
+## Non intrusive API integration
+   * Use your existing code to integration Pilot in your app.
+   * Even at runtime, only spell ids defined automatically or manually are transmitted over the network. Perfect for proprietary apps looking to add a remote control protocol in record time without compromising on their proprietary implementation.
+
+## Customizable UI in proprietary software
+   * You control names, description, texts and and icons depending on the state
+   * When you decide to use Pilot with the Stobo app it grants your the best of both world. Open source transparency and guaranty of maintenance from our remote control app distributed on the AppStore.
+
+
+---
+
+Now that you know everything, you can design remote experiences that range from simple triggers to fully data-driven controls, always private, always under your control.
+
+
+
