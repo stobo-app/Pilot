@@ -13,17 +13,26 @@ public class SpellTarget {
     public static let shared = SpellTarget()
     private let connectionManager = ConnectionManager()
     public let deviceId: String = ConnectionManager.deviceId
-    public var isConnected: Bool {
-        connectionManager.isConnected
-    }
+    public var isConnected: Bool = false
     private init() {}
 
 
     public func startHosting(_ appName: String) {
         logger.debug("Pilot: Starting hosting for \(appName)")
-
         connectionManager.onMessageReceived = { [weak self] message in
             self?.handleMessage(message)
+        }
+        connectionManager.onConnectionReady = { [weak self] in
+            self?.isConnected = true
+        }
+        connectionManager.onConnectionFailed = { [weak self] error in
+            self?.isConnected = false
+        }
+        connectionManager.onConnectionLost = { [weak self] in
+            self?.isConnected = false
+        }
+        connectionManager.onConnectionError = { [weak self] error in
+            self?.isConnected = false
         }
 
         connectionManager.startHosting(appName: appName)
@@ -37,8 +46,14 @@ public class SpellTarget {
     public func disconnect() {
         connectionManager.send(
             .disconnect,
-            onSuccess: { self.connectionManager.disconnect() },
-            onFail: { self.connectionManager.disconnect() }
+            onSuccess: { 
+                self.connectionManager.disconnect() 
+                self.isConnected = false
+            },
+            onFail: { 
+                self.connectionManager.disconnect() 
+                self.isConnected = false
+            }
         )
     }
 
@@ -64,6 +79,7 @@ public class SpellTarget {
             switch message {
             case .disconnect:
                 connectionManager.disconnect()
+                isConnected = false
             case .requestSpellBook:
                 shareSpellBook()
             case .spellBook(_):
@@ -88,5 +104,12 @@ public extension EnvironmentValues {
     public var pilotTarget: SpellTarget {
         get { self[SpellTargetKey.self] }
         set { self[SpellTargetKey.self] = newValue }
+    }
+}
+
+public extension View {
+    /// Ensures the SpellTarget in the environment is properly observed for state changes
+    public func observePilotTarget() -> some View {
+        self.environment(\.pilotTarget, SpellTarget.shared)
     }
 }
