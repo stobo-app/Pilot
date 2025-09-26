@@ -25,7 +25,7 @@ public class SpellTarget {
         connectionManager.onConnectionReady = { [weak self] in
             self?.isConnected = true
         }
-        connectionManager.onConnectionFailed = { [weak self] error in
+        connectionManager.onConnectionFailed = { [weak self] in
             self?.isConnected = false
         }
         connectionManager.onConnectionLost = { [weak self] in
