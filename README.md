@@ -105,7 +105,7 @@ Now that you know everything, you can design remote experiences that range from 
 We’d love to hear from you!  
 
 - Found an issue or have a feature request? Please open an [issue](https://github.com/stobo-app/Pilot/issues).  
-- For anything else, reach us at: **[pilot@stobo.app](mailto:pilot@stobo.app)**  
+- For anything else, reach me at: **[jonathan@stobo.app](mailto:jonathan@stobo.app)**  
 <br>
 
 ---
