@@ -57,7 +57,7 @@ public class SpellTarget {
         )
     }
 
-    public func register(spells: [any AnySpell]) {
+    public func register(spells: [Spell]) {
         SpellBook.shared.register(spells)
         shareSpellBook()
     }
@@ -101,7 +101,7 @@ private struct SpellTargetKey: EnvironmentKey {
 }
 
 public extension EnvironmentValues {
-    public var pilotTarget: SpellTarget {
+    var pilotTarget: SpellTarget {
         get { self[SpellTargetKey.self] }
         set { self[SpellTargetKey.self] = newValue }
     }
@@ -109,7 +109,7 @@ public extension EnvironmentValues {
 
 public extension View {
     /// Ensures the SpellTarget in the environment is properly observed for state changes
-    public func observePilotTarget() -> some View {
+    func observePilotTarget() -> some View {
         self.environment(\.pilotTarget, SpellTarget.shared)
     }
 }

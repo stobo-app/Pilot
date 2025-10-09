@@ -11,9 +11,9 @@ public final class SpellBook {
     public static let shared = SpellBook()
     private init() {}
     
-    private(set) var spells: [UUID: any AnySpell] = [:]
+    private(set) var spells: [UUID: Spell] = [:]
     
-    public func register(_ spells: [any AnySpell]) {
+    public func register(_ spells: [Spell]) {
         self.spells = [:]
         for spell in spells {
             self.spells[spell.id] = spell
@@ -24,7 +24,7 @@ public final class SpellBook {
         spells.values.map { $0.descriptor }
     }
     
-    public func read(spellId: UUID) -> (any AnySpell)? {
+    public func read(spellId: UUID) -> (Spell)? {
         return spells[spellId]
     }
     
@@ -32,9 +32,9 @@ public final class SpellBook {
         guard let spell = read(spellId: spellId) else { return }
         switch type {
         case .play:
-            spell.executePlay()
+            spell.play()
         case .pause:
-            spell.executePause()
+            spell.pause?()
         }
         
     }

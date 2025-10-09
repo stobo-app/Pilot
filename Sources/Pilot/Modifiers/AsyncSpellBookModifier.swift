@@ -10,8 +10,8 @@ import SwiftUI
 struct AsyncSpellBookModifier: ViewModifier {
     @Environment(\.pilotTarget) private var pilotTarget
     let appName: String
-    @State private var spells: [any AnySpell] = []
-    let getSpells: () async -> [any AnySpell]
+    @State private var spells = [Spell]()
+    let getSpells: () async -> [Spell]
 
     private var spellArrayId: String {
         spells.reduce("", { $0 + $1.id.uuidString })
@@ -36,7 +36,7 @@ struct AsyncSpellBookModifier: ViewModifier {
 }
 
 extension View {
-    public func startPilot(appName: String, getSpells: @escaping () async -> [any AnySpell]) -> some View {
+    public func startPilot(appName: String, getSpells: @escaping () async -> [Spell]) -> some View {
         self.modifier(AsyncSpellBookModifier(appName: appName, getSpells: getSpells))
     }
 }

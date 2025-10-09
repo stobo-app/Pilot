@@ -17,11 +17,18 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Text("Hello, Pilot!")
+                .font(.extraLargeTitle)
             Button("Discover a secret") {
                 isAlertPresented = true
                 /// Notify Stobo iPhone that the alert got opened manually from your controlled app to keep the status in sync
                 pilotTarget.invoke(spellId: revelioId, type: .play)
             }
+            .padding(.bottom)
+            Text("Make sure Stobo Control and your Vision Pro are on the same network")
+                .padding(.bottom)
+            Text("Your device number:")
+            Text(pilotTarget.deviceId)
+                .font(.largeTitle)
         }
         .padding()
         .alert(isPresented: $isAlertPresented) {
@@ -35,8 +42,8 @@ struct ContentView: View {
             )
         }
         .onAppear {
-            /// Create your actions with your own functions, with or without payload
-            let spells: [any AnySpell] = [
+            /// Create your actions with your own functions
+            let spells: [Spell] = [
                 Spell(
                     /// (Optional) Identify your spell to be able to invoke it from your app and keep the PIlot app in sync
                     id: revelioId,
