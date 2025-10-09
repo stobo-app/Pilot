@@ -10,7 +10,7 @@ import SwiftUI
 struct ReactiveSpellBookModifier: ViewModifier {
     @Environment(\.pilotTarget) private var pilotTarget
     let appName: String
-    @Binding var spells: [any AnySpell]
+    @Binding var spells: [Spell]
     
     private var spellArrayId: String {
         spells.reduce("", { $0 + $1.id.uuidString })
@@ -32,7 +32,7 @@ struct ReactiveSpellBookModifier: ViewModifier {
 }
 
 extension View {
-    public func startPilot(appName: String, spells: Binding<[any AnySpell]>) -> some View {
+    public func startPilot(appName: String, spells: Binding<[Spell]>) -> some View {
         self.modifier(ReactiveSpellBookModifier(appName: appName, spells: spells))
     }
 }
