@@ -40,7 +40,7 @@ If you do not see *"SpellBook"* listed, or no action is happening when you tap o
 
 ## Get started
 
-To register a `Spell`, simply declare an array of type `[any AnySpell]`. This allows you to declare a non-homogeneous array of generic `Spell` structures. Once declared, register your `Spell` array with Pilot using `.startPilot(appName:, spells:)`. Apply this modifier on your root view and let Pilot handle the communication and networking for you.
+To register a `Spell`, simply declare an array of type `[Spell]`. Once declared, register your `Spell` array with Pilot using `.startPilot(appName:, spells:)`. Apply this modifier on your root view and let Pilot handle the communication and networking for you.
 
 ## Examples
 
@@ -82,13 +82,18 @@ In the manual setup `ContentView.swift`, you can see that a custom Spell ID is d
 
 # Why Pilot?
 
-## Privacy oriented design
-   * Sensitive data (payloads and function declarations) are stored **only on the controlled app**. Your app.
-   * Stobo never has access to your logic or payloads.
+## Privacy-first design
+   * **Only spell identifiers (UUIDs) are transmitted over the network** — never your app's logic, data, or function parameters.
+   * All spell closures and business logic remain **exclusively on your controlled app**. They never leave your device.
+   * Stobo Control works offline and has no access to your app's implementation or sensitive data.
+   * Perfect for proprietary or enterprise apps that require strict data privacy guarantees.
+   
+   👉 [Read our full Privacy Policy](PRIVACY.md)
 
 ## Non-intrusive API integration
    * Use your existing code to integrate Pilot in your app.
-   * Even at runtime, only spell IDs defined automatically or manually are transmitted over the network. Perfect for proprietary apps looking to add a remote control protocol in record time without compromising their proprietary implementation.
+   * Add remote control capabilities in minutes without refactoring your existing implementation.
+   * Perfect for proprietary apps looking to add demo/presentation capabilities without compromising their codebase.
 
 ## Customizable UI in proprietary software
    * You control names, descriptions, labels and icons depending on the state

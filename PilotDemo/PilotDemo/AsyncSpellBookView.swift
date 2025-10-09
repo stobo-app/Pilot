@@ -31,7 +31,7 @@ struct AsyncSpellBookView: View {
         }
     }
     
-    private func loadSpellsAsync() async -> [any AnySpell] {
+    private func loadSpellsAsync() async -> [Spell] {
         // Simulate progressive loading over 5 seconds
         let totalDuration: Double = 5.0 // 5 seconds
         let updateInterval: Double = 0.1 // Update every 100ms

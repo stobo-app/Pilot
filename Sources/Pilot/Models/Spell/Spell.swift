@@ -7,7 +7,15 @@
 
 import Foundation
 
-public struct Spell {
+public struct Spell: Equatable, Identifiable, Hashable {
+    public static func == (lhs: Spell, rhs: Spell) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
     public let id: UUID
     public let name: String
     public let description: String

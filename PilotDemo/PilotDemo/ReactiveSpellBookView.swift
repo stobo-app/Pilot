@@ -9,7 +9,7 @@ import SwiftUI
 import Pilot
 
 struct ReactiveSpellBookView: View {
-    @State private var spells = [any AnySpell]()
+    @State private var spells = [Spell]()
     private var spellCount: Int {
         spells.count + 1
     }
